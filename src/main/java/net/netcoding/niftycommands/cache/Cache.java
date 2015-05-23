@@ -1,7 +1,7 @@
 package net.netcoding.niftycommands.cache;
 
-import net.netcoding.niftybukkit.database.MySQL;
 import net.netcoding.niftycommands.listeners.Notifications;
+import net.netcoding.niftycore.database.MySQL;
 
 public class Cache {
 
