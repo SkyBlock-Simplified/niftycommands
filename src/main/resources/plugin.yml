@@ -5,3 +5,28 @@ author: ${author}
 
 main: ${project.groupId}.${project.artifactId}.${project.name}
 depend: [NiftyBukkit]
+
+commands:
+  flickplayers:
+    description: Sends the player flying in their facing/specified direction
+    usage: /<command> [<<x> <y> <z>>|<player|all> [<x> <y> <z>]]
+    aliases: [flickplayer, flickp, flickme, flick]
+  flickmobs:
+    description: Sends a mob flying out of your body in your facing/specified direction
+    usage: /<command> [<<x> <y> <z>>|<mob> [<x> <y> <z>]]
+    aliases: [flickmob, flickm]
+  flipblocks:
+    description: Sends a selection of blocks in the specified direction
+    usage: /<command> [<x> <y> <z>]
+    aliases: [flipblock, flip, fb]
+  earthquake:
+    description: Makes the player shake uncontrollably and prevents jumping
+    usage: /<command> <figurethisoutlater>
+    aliases: [quake]
+  tower:
+    description: Spawns mobs on top of each other, making a tower
+    usage: /<command> [count] [mobs...]
+  rainmobs:
+    description: Rains down mobs around you
+    usage: /<command> [count]
+    aliases: [rainmob]
