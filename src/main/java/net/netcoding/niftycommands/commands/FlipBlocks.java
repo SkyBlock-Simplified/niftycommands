@@ -1,6 +1,7 @@
 package net.netcoding.niftycommands.commands;
 
 import net.netcoding.niftybukkit.minecraft.BukkitCommand;
+import net.netcoding.niftycore.minecraft.scheduler.MinecraftScheduler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -26,7 +27,7 @@ public class FlipBlocks extends BukkitCommand {
 	@Override
 	protected void onCommand(CommandSender sender, String alias, String[] args) throws Exception {
 		PluginManager manager = this.getPlugin().getServer().getPluginManager();
-		Vector velocity = new Vector(0, 1.5, 0);
+		final Vector velocity = new Vector(0, 1.5, 0);
 
 		if (!manager.isPluginEnabled(WORLDEDIT)) {
 			this.getLog().error(sender, "This command requires {{0}}!", WORLDEDIT);
@@ -62,23 +63,31 @@ public class FlipBlocks extends BukkitCommand {
 		Player player = (Player)sender;
 		com.sk89q.worldedit.bukkit.WorldEditPlugin wePlugin = (com.sk89q.worldedit.bukkit.WorldEditPlugin)manager.getPlugin(WORLDEDIT);
 		com.sk89q.worldedit.bukkit.selections.Selection selection = wePlugin.getSelection(player);
-		Location minimum = selection.getMinimumPoint();
-		Location maximum = selection.getMaximumPoint();
-		World world = player.getWorld();
+		final Location minimum = selection.getMinimumPoint();
+		final Location maximum = selection.getMaximumPoint();
+		final World world = player.getWorld();
+		final Object lock = new Object();
 
-		for (int x = maximum.getBlockX() - 1; x >= minimum.getBlockX(); x--) {
-			for (int z = maximum.getBlockZ() - 1; z >= minimum.getBlockZ(); z--) {
-				for (int y = maximum.getBlockY() - 1; y >= minimum.getBlockY(); y--) {
-					Block block = world.getBlockAt(x, y, z);
-					if (block == null || Material.AIR.equals(block.getType())) continue;
-					block.setType(Material.AIR);
-					block.breakNaturally();
-					block.getDrops().clear();
-					FallingBlock falling = world.spawnFallingBlock(block.getLocation(), block.getType(), block.getData());
-					falling.setVelocity(velocity);
+		MinecraftScheduler.runAsync(this.getPlugin(), new Runnable() {
+			@Override
+			public void run() {
+				for (int x = maximum.getBlockX() - 1; x >= minimum.getBlockX(); x--) {
+					for (int z = maximum.getBlockZ() - 1; z >= minimum.getBlockZ(); z--) {
+						synchronized (lock) {
+							for (int y = maximum.getBlockY() - 1; y >= minimum.getBlockY(); y--) {
+								Block block = world.getBlockAt(x, y, z);
+								if (block == null || Material.AIR.equals(block.getType())) continue;
+								block.setType(Material.AIR);
+								block.breakNaturally();
+								block.getDrops().clear();
+								FallingBlock falling = world.spawnFallingBlock(block.getLocation(), block.getType(), block.getData());
+								falling.setVelocity(velocity);
+							}
+						}
+					}
 				}
 			}
-		}
+		});
 	}
 
 }
