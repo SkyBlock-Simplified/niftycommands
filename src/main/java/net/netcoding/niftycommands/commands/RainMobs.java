@@ -31,18 +31,18 @@ public class RainMobs extends BukkitCommand {
         int total = (args.length == 1 ? Integer.parseInt(args[0]) : 10);
 
         for (int i = 0; i < total; i++) {
-            int rand = NumberUtil.rand(0, ALLOWED_MOBS.size());
+            int rand = NumberUtil.rand(0, ALLOWED_MOBS.size() - 1);
             Mob mob = ALLOWED_MOBS.get(rand);
 
-            double x = NumberUtil.rand(-3, 3);
-            double y = NumberUtil.rand(3, 10);
-            double z = NumberUtil.rand(-3, 3);
+            double x = NumberUtil.rand(-10, 10);
+            double y = NumberUtil.rand(10, 20);
+            double z = NumberUtil.rand(-10, 10);
             Vector position = new Vector(x, y, z);
 
             try {
                 Location mobLocation = location.add(position);
                 mob.spawn(mobLocation);
-            } catch (Exception ex) { }
+            } catch (Exception ignore) { }
         }
     }
 

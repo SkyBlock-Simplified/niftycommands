@@ -1,7 +1,6 @@
 package net.netcoding.niftycommands.commands;
 
 import net.netcoding.niftybukkit.minecraft.BukkitCommand;
-import net.netcoding.niftycore.minecraft.scheduler.MinecraftScheduler;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -37,8 +36,8 @@ public class FlipBlocks extends BukkitCommand {
 		if (args.length == 3) {
 			try {
 				velocity.setX(Double.parseDouble(args[0]));
-				velocity.setY(Double.parseDouble(args[0]));
-				velocity.setZ(Double.parseDouble(args[0]));
+				velocity.setY(Double.parseDouble(args[1]));
+				velocity.setZ(Double.parseDouble(args[2]));
 			} catch (Exception ex) {
 				this.showUsage(sender);
 				return;
@@ -49,7 +48,7 @@ public class FlipBlocks extends BukkitCommand {
 				return;
 			}
 
-			if (velocity.getY() < -0.0 || velocity.getY() > 9.0) {
+			if (velocity.getY() < 0.0 || velocity.getY() > 9.0) {
 				this.getLog().error(sender, "The Y velocity argument must be between 0 and 9!");
 				return;
 			}
@@ -63,31 +62,42 @@ public class FlipBlocks extends BukkitCommand {
 		Player player = (Player)sender;
 		com.sk89q.worldedit.bukkit.WorldEditPlugin wePlugin = (com.sk89q.worldedit.bukkit.WorldEditPlugin)manager.getPlugin(WORLDEDIT);
 		com.sk89q.worldedit.bukkit.selections.Selection selection = wePlugin.getSelection(player);
-		final Location minimum = selection.getMinimumPoint();
-		final Location maximum = selection.getMaximumPoint();
 		final World world = player.getWorld();
-		final Object lock = new Object();
+		//final Object lock = new Object();
+		final Location minimum;
+		final Location maximum;
 
-		MinecraftScheduler.runAsync(this.getPlugin(), new Runnable() {
+		try {
+			minimum = selection.getMinimumPoint();
+			maximum = selection.getMaximumPoint();
+		} catch (Exception ex) {
+			this.getLog().error(sender, "You must make a selection first!");
+			return;
+		}
+
+		/*MinecraftScheduler.runAsync(this.getPlugin(), new Runnable() {
 			@Override
-			public void run() {
+			public void run() {*/
 				for (int x = maximum.getBlockX() - 1; x >= minimum.getBlockX(); x--) {
 					for (int z = maximum.getBlockZ() - 1; z >= minimum.getBlockZ(); z--) {
-						synchronized (lock) {
+						//synchronized (lock) {
 							for (int y = maximum.getBlockY() - 1; y >= minimum.getBlockY(); y--) {
 								Block block = world.getBlockAt(x, y, z);
-								if (block == null || Material.AIR.equals(block.getType())) continue;
+
+								if (block == null || Material.AIR == block.getType())
+									continue;
+
 								block.setType(Material.AIR);
 								block.breakNaturally();
 								block.getDrops().clear();
 								FallingBlock falling = world.spawnFallingBlock(block.getLocation(), block.getType(), block.getData());
 								falling.setVelocity(velocity);
 							}
-						}
+						//}
 					}
 				}
-			}
-		});
+			//}
+		//});
 	}
 
 }

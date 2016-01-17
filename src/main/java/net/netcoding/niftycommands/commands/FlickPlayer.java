@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,9 +30,7 @@ public class FlickPlayer extends BukkitCommand {
 		if (args.length == 1 || args.length == 4) {
 			if (args[0].matches("^all|\\*")) {
 				BukkitMojangProfile[] profiles = NiftyBukkit.getMojangRepository().searchByPlayer(this.getPlugin().getServer().getOnlinePlayers());
-
-				for (BukkitMojangProfile profile : profiles)
-					flickProfiles.add(profile);
+				Collections.addAll(flickProfiles, profiles);
 			} else
 				flickProfiles.add(NiftyBukkit.getMojangRepository().searchByUsername(args[0]));
 		} else {

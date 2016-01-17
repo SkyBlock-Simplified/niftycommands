@@ -24,7 +24,7 @@ public class Tower extends BukkitCommand {
 
 	@Override
 	protected void onCommand(CommandSender sender, String alias, String[] args) throws Exception {
-        Location location = ((Player)sender).getLocation();
+        Location location = ((Player)sender).getEyeLocation();
         int towers = 1;
         int start = 0;
 
@@ -38,22 +38,23 @@ public class Tower extends BukkitCommand {
 
         for (String mobName : mobNames) {
             Mob mob = Mob.fromName(mobName);
-            if (mob == null) continue;
-            mobs.add(mob);
+
+            if (mob != null)
+                mobs.add(mob);
         }
 
         for (int i = 0; i < towers; i++) {
             Entity lastEntity = null;
 
             for (Mob mob : mobs) {
-                try {
+                //try {
                     Entity entity = mob.spawn(location);
 
                     if (lastEntity != null)
                         lastEntity.setPassenger(entity);
 
                     lastEntity = entity;
-                } catch (Exception ex) { }
+                //} catch (Exception ex) { }
             }
         }
 	}

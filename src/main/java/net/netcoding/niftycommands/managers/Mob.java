@@ -62,12 +62,12 @@ public enum Mob {
         }
     }
 
-	private Mob(String name, Behavior behavior, EntityType type) {
+	Mob(String name, Behavior behavior, EntityType type) {
 		this(name, behavior, "s", type);
 	}
 
-	private Mob(String nname, Behavior behavior, String suffix, EntityType type) {
-		this.name = nname;
+	Mob(String name, Behavior behavior, String suffix, EntityType type) {
+		this.name = name;
 		this.behavior = behavior;
 		this.suffix = suffix;
 		this.type = type;
@@ -93,6 +93,10 @@ public enum Mob {
         return this.name;
     }
 
+	public String getSuffix() {
+		return this.suffix;
+	}
+
 	public EntityType getType() {
 		return this.type;
 	}
@@ -114,8 +118,12 @@ public enum Mob {
 
 		private final String type;
 
-		private Behavior(String type) {
+		Behavior(String type) {
 			this.type = type;
+		}
+
+		public String getType() {
+			return this.type;
 		}
 
 	}
