@@ -48,7 +48,7 @@ public class NiftyCommands extends BukkitPlugin {
         try {
             this.getLog().console("Loading Config");
             (PLUGIN_CONFIG = new Config(this)).init();
-        } catch (Exception ex) { }
+        } catch (Exception ignore) { }
 
         this.getLog().console("Registering Commands");
         new FlickPlayer(this);
@@ -64,7 +64,7 @@ public class NiftyCommands extends BukkitPlugin {
             getSQL().removeListeners();
 	}
 
-    public final static SQLWrapper getSQL() {
+    public static SQLWrapper getSQL() {
         return PLUGIN_CONFIG.getSQL();
     }
 
