@@ -44,18 +44,18 @@ public class FlickMobs extends BukkitCommand {
 				return;
 			}
 
-			if (velocity.getX() < -9.0 || velocity.getX() > 9.0) {
-				this.getLog().error(sender, "The X velocity argument must be between -9 and 9!");
+			if (velocity.getX() < -3.0 || velocity.getX() > 3.0) {
+				this.getLog().error(sender, "The X velocity argument must be between -3 and 3!");
 				return;
 			}
 
-			if (velocity.getY() < -9.0 || velocity.getY() > 9.0) {
-				this.getLog().error(sender, "The Y velocity argument must be between -9 and 9!");
+			if (velocity.getY() < 0.0 || velocity.getY() > 3.0) {
+				this.getLog().error(sender, "The Y velocity argument must be between 0 and 3!");
 				return;
 			}
 
-			if (velocity.getZ() < -9.0 || velocity.getZ() > 9.0) {
-				this.getLog().error(sender, "The Z velocity argument must be between -9 and 9!");
+			if (velocity.getZ() < -3.0 || velocity.getZ() > 3.0) {
+				this.getLog().error(sender, "The Z velocity argument must be between -3 and 3!");
 				return;
 			}
 		} else
