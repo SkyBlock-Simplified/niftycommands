@@ -4,7 +4,6 @@ import net.netcoding.niftybukkit.NiftyBukkit;
 import net.netcoding.niftybukkit.minecraft.BukkitCommand;
 import net.netcoding.niftybukkit.mojang.BukkitMojangProfile;
 import net.netcoding.niftycommands.cache.Config;
-import net.netcoding.niftycore.minecraft.scheduler.MinecraftScheduler;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +24,7 @@ public class FlickPlayer extends BukkitCommand {
 	protected void onCommand(CommandSender sender, String alias, String[] args) throws Exception {
 		Set<BukkitMojangProfile> flickProfiles = new HashSet<>();
 		Vector velocity = new Vector(0.0, 1.5, 0.0);
-		boolean useDefault = true;
+		boolean useDefault = false;
 
 		if (args.length == 1 || args.length == 4) {
 			if (args[0].matches("^all|\\*")) {
@@ -67,27 +66,18 @@ public class FlickPlayer extends BukkitCommand {
 				return;
 			}
 		} else
-			useDefault = false;
+			useDefault = true;
 
 		for (BukkitMojangProfile profile : flickProfiles) {
 			if (!profile.isOnlineLocally()) continue;
 			final Player player = profile.getOfflinePlayer().getPlayer();
 
-			if (!useDefault)
-				velocity = Config.getPitchVelocity(player.getLocation().getPitch(), 9.0);
+			if (useDefault)
+				velocity = Config.getPitchVelocity(player.getLocation().getPitch(), 1.5);
 
-			final boolean isFlying = player.isFlying();
-			player.setFlying(false);
-			player.setFlying(isFlying);
 			player.leaveVehicle();
+			player.setFlying(false);
 			player.setVelocity(velocity);
-
-			MinecraftScheduler.schedule(new Runnable() {
-				@Override
-				public void run() {
-					player.setFlying(isFlying);
-				}
-			}, 1);
 		}
 
 	}
