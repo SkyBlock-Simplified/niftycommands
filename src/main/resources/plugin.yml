@@ -7,6 +7,10 @@ main: ${project.groupId}.${project.artifactId}.${project.name}
 depend: [NiftyBukkit]
 
 commands:
+  elytra:
+    description: Toggles the ability to continuously fly using the elytra
+    usage: /<command>
+    aliases: [infflight, iflight, flight, efly, elytrafly]
   flickplayers:
     description: Sends the player flying in their facing/specified direction
     usage: /<command> [<<x> <y> <z>>|<player|all> [<x> <y> <z>]]
