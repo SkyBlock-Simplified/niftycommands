@@ -2,7 +2,12 @@ package net.netcoding.niftycommands;
 
 import net.netcoding.niftybukkit.minecraft.BukkitPlugin;
 import net.netcoding.niftycommands.cache.Config;
-import net.netcoding.niftycommands.commands.*;
+import net.netcoding.niftycommands.commands.Elytra;
+import net.netcoding.niftycommands.commands.FlickMobs;
+import net.netcoding.niftycommands.commands.FlickPlayer;
+import net.netcoding.niftycommands.commands.FlipBlocks;
+import net.netcoding.niftycommands.commands.RainMobs;
+import net.netcoding.niftycommands.commands.Tower;
 import net.netcoding.niftycore.database.factory.SQLWrapper;
 
 public class NiftyCommands extends BukkitPlugin {
@@ -51,11 +56,14 @@ public class NiftyCommands extends BukkitPlugin {
         } catch (Exception ignore) { }
 
         this.getLog().console("Registering Commands");
+		new Elytra(this);
         new FlickPlayer(this);
         new FlickMobs(this);
         new FlipBlocks(this);
         new RainMobs(this);
         new Tower(this);
+
+		//this.getLog().console("Registering Listeners");
 	}
 
 	@Override
