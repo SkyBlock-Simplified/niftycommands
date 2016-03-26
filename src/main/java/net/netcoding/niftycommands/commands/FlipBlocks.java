@@ -63,7 +63,6 @@ public class FlipBlocks extends BukkitCommand {
 		com.sk89q.worldedit.bukkit.WorldEditPlugin wePlugin = (com.sk89q.worldedit.bukkit.WorldEditPlugin)manager.getPlugin(WORLDEDIT);
 		com.sk89q.worldedit.bukkit.selections.Selection selection = wePlugin.getSelection(player);
 		final World world = player.getWorld();
-		//final Object lock = new Object();
 		final Location minimum;
 		final Location maximum;
 
@@ -75,29 +74,25 @@ public class FlipBlocks extends BukkitCommand {
 			return;
 		}
 
-		/*MinecraftScheduler.runAsync(this.getPlugin(), new Runnable() {
-			@Override
-			public void run() {*/
-				for (int x = maximum.getBlockX() - 1; x >= minimum.getBlockX(); x--) {
-					for (int z = maximum.getBlockZ() - 1; z >= minimum.getBlockZ(); z--) {
-						//synchronized (lock) {
-							for (int y = maximum.getBlockY() - 1; y >= minimum.getBlockY(); y--) {
-								Block block = world.getBlockAt(x, y, z);
+		for (int y = minimum.getBlockY(); y <= maximum.getBlockY(); y++) {
+			for (int x = maximum.getBlockX(); x >= minimum.getBlockX(); x--) {
+				for (int z = maximum.getBlockZ(); z >= minimum.getBlockZ(); z--) {
+					Block block = world.getBlockAt(x, y, z);
 
-								if (block == null || Material.AIR == block.getType())
-									continue;
+					if (block == null || Material.AIR == block.getType())
+						continue;
 
-								block.setType(Material.AIR);
-								block.breakNaturally();
-								block.getDrops().clear();
-								FallingBlock falling = world.spawnFallingBlock(block.getLocation(), block.getType(), block.getData());
-								falling.setVelocity(velocity);
-							}
-						//}
-					}
+					Material material = block.getType();
+					byte data = block.getData();
+					block.setType(Material.AIR);
+					block.breakNaturally();
+					block.getDrops().clear();
+					FallingBlock falling = world.spawnFallingBlock(block.getLocation(), material, data);
+					falling.setDropItem(false);
+					falling.setVelocity(velocity);
 				}
-			//}
-		//});
+			}
+		}
 	}
 
 }
