@@ -4,6 +4,7 @@ import net.netcoding.niftybukkit.minecraft.BukkitCommand;
 import net.netcoding.niftycommands.managers.Mob;
 import net.netcoding.niftycore.util.NumberUtil;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,8 +16,8 @@ import java.util.List;
 public class RainMobs extends BukkitCommand {
 
     private final static List<Mob> ALLOWED_MOBS = Arrays.asList(
-            Mob.CHICKEN, Mob.COW, Mob.PIG, Mob.SHEEP, Mob.SQUID,
-            Mob.VILLAGER, Mob.MUSHROOMCOW, Mob.SNOWMAN, Mob.OCELOT
+        Mob.CHICKEN, Mob.COW, Mob.PIG, Mob.SHEEP, Mob.SQUID,
+        Mob.VILLAGER, Mob.MUSHROOMCOW, Mob.SNOWMAN, Mob.OCELOT
     );
 
 	public RainMobs(JavaPlugin plugin) {
@@ -34,15 +35,21 @@ public class RainMobs extends BukkitCommand {
             int rand = NumberUtil.rand(0, ALLOWED_MOBS.size() - 1);
             Mob mob = ALLOWED_MOBS.get(rand);
 
-            double x = NumberUtil.rand(-10, 10);
-            double y = NumberUtil.rand(10, 20);
-            double z = NumberUtil.rand(-10, 10);
-            Vector position = new Vector(x, y, z);
+            while (true) {
+                double x = NumberUtil.rand(-15, 15);
+                double y = NumberUtil.rand(10, 15);
+                double z = NumberUtil.rand(-15, 15);
+                Vector position = new Vector(x, y, z);
 
-            try {
-                Location mobLocation = location.add(position);
-                mob.spawn(mobLocation);
-            } catch (Exception ignore) { }
+                try {
+                    Location mobLocation = location.add(position);
+
+                    if (Material.AIR == mobLocation.getBlock().getType()) {
+                        mob.spawn(mobLocation);
+                        break;
+                    }
+                } catch (Exception ignore) { }
+            }
         }
     }
 
