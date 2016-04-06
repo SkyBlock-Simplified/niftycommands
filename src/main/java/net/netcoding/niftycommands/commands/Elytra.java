@@ -2,8 +2,10 @@ package net.netcoding.niftycommands.commands;
 
 import net.netcoding.niftybukkit.minecraft.BukkitCommand;
 import net.netcoding.niftybukkit.reflection.MinecraftProtocol;
+import net.netcoding.niftybukkit.util.LocationUtil;
 import net.netcoding.niftycore.minecraft.scheduler.MinecraftScheduler;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -50,10 +52,27 @@ public class Elytra extends BukkitCommand {
 							if (player.isGliding()) {
 								Location location = player.getLocation();
 								Vector velocity = player.getVelocity().clone();
-								Vector vector = location.getDirection();
+								Vector vector = location.getDirection().clone();
+								BlockFace facing = LocationUtil.yawToFace(location.getYaw());
 
-								if (vector.getY() > 0.0)
+								// Ascending
+								if (vector.getY() >= 0.0) {
+									// Temporarily Maintain Increased Velocity
+									if (facing == BlockFace.NORTH || facing == BlockFace.NORTH_EAST || facing == BlockFace.NORTH_WEST)
+										vector.setZ(Math.max(vector.getZ(), velocity.getZ()));
+
+									if (facing == BlockFace.EAST || facing == BlockFace.NORTH_EAST || facing == BlockFace.SOUTH_EAST)
+										vector.setX(Math.min(vector.getX(), velocity.getX()));
+
+									if (facing == BlockFace.SOUTH || facing == BlockFace.SOUTH_EAST || facing == BlockFace.SOUTH_WEST)
+										vector.setZ(Math.min(vector.getZ(), velocity.getZ()));
+
+									if (facing == BlockFace.WEST || facing == BlockFace.NORTH_WEST || facing == BlockFace.SOUTH_WEST)
+										vector.setX(Math.max(vector.getX(), velocity.getX()));
+
+									// Maintain Ascending Velocity
 									velocity = vector;
+								}
 
 								player.setVelocity(velocity);
 							}
@@ -62,7 +81,7 @@ public class Elytra extends BukkitCommand {
 						removeElytra(player);
 					}
 				}
-			}, 0L, 3L).getId();
+			}, 0L, 1L).getId();
 
 			MetadataValue metadata = new FixedMetadataValue(this.getPlugin(), taskId);
 			player.setMetadata(INFINITE_ELYTRA, metadata);
