@@ -10,7 +10,7 @@ commands:
   elytra:
     description: Toggles the ability to continuously fly using the elytra
     usage: /<command>
-    aliases: [infflight, iflight, flight, efly, elytrafly]
+    aliases: [infflight, iflight, flight, efly, elytrafly, peterpan, pan]
   flickplayers:
     description: Sends the player flying in their facing/specified direction
     usage: /<command> [<<x> <y> <z>>|<player|all> [<x> <y> <z>]]
