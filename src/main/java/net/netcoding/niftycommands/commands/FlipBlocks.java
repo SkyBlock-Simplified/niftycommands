@@ -48,8 +48,8 @@ public class FlipBlocks extends BukkitCommand {
 				return;
 			}
 
-			if (velocity.getY() < 0.0 || velocity.getY() > 9.0) {
-				this.getLog().error(sender, "The Y velocity argument must be between 0 and 9!");
+			if (velocity.getY() < 0.0 || velocity.getY() > 5.0) {
+				this.getLog().error(sender, "The Y velocity argument must be between 0 and 5!");
 				return;
 			}
 
