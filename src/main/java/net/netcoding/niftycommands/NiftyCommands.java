@@ -8,6 +8,7 @@ import net.netcoding.niftycommands.commands.FlickPlayer;
 import net.netcoding.niftycommands.commands.FlipBlocks;
 import net.netcoding.niftycommands.commands.RainMobs;
 import net.netcoding.niftycommands.commands.Tower;
+import net.netcoding.niftycommands.listeners.Connections;
 import net.netcoding.niftycore.database.factory.SQLWrapper;
 
 public class NiftyCommands extends BukkitPlugin {
@@ -63,7 +64,8 @@ public class NiftyCommands extends BukkitPlugin {
         new RainMobs(this);
         new Tower(this);
 
-		//this.getLog().console("Registering Listeners");
+		this.getLog().console("Registering Listeners");
+		new Connections(this);
 	}
 
 	@Override
