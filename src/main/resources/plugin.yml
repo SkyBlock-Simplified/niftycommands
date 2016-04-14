@@ -7,30 +7,54 @@ main: ${project.groupId}.${project.artifactId}.${project.name}
 depend: [NiftyBukkit]
 
 commands:
-  elytra:
-    description: Toggles the ability to continuously fly using the elytra
-    usage: /<command>
-    aliases: [infflight, iflight, flight, efly, elytrafly, peterpan, pan]
-  flickplayers:
-    description: Sends the player flying in their facing/specified direction
-    usage: /<command> [<<x> <y> <z>>|<player|all> [<x> <y> <z>]]
-    aliases: [flickplayer, flickp, flickme, flick]
-  flickmobs:
-    description: Sends a mob flying out of your body in your facing/specified direction
-    usage: /<command> [<<x> <y> <z>>|<mob> [<x> <y> <z>]]
-    aliases: [flickmob, flickm]
-  flipblocks:
-    description: Sends a selection of blocks in the specified direction
-    usage: /<command> [<x> <y> <z>]
-    aliases: [flipblock, flip, fb]
   earthquake:
     description: Makes the player shake uncontrollably and prevents jumping
     usage: /<command> <figurethisoutlater>
     aliases: [quake]
-  tower:
-    description: Spawns mobs on top of each other, making a tower
-    usage: /<command> [count] [mobs...]
+  elytra:
+    description: Toggles the ability to continuously fly using the elytra
+    usage: /<command>
+    aliases: [infflight, iflight, flight, efly, elytrafly, peterpan, pan]
+  flickmobs:
+    description: Sends a mob flying out of your body in your facing/specified direction
+    usage: /<command> [<<x> <y> <z>>|<mob> [<x> <y> <z>]]
+    aliases: [flickmob, flickm]
+  flickplayers:
+    description: Sends the player flying in their facing/specified direction
+    usage: /<command> [<<x> <y> <z>>|<player|all> [<x> <y> <z>]]
+    aliases: [flickplayer, flickp, flickme, flick]
+  flipblocks:
+    description: Sends a selection of blocks in the specified direction
+    usage: /<command> [<x> <y> <z>]
+    aliases: [flipblock, flip, fb]
   rainmobs:
     description: Rains down mobs around you
     usage: /<command> [count]
     aliases: [rainmob]
+  tower:
+    description: Spawns mobs on top of each other, making a tower
+    usage: /<command> [count] [mobs...]
+
+permissions:
+  niftycommands.*:
+    description: Gives access to all plugin features and commands
+    children:
+      niftycommands.earthquake:
+        description: Allows you to shake any player uncontrollably
+      niftycommands.elytra.*:
+        description: Allows you to maintain upward elytra flight
+        children:
+          niftycommands.elytra:
+            description: Allows you to maintain upward flight
+          niftycommands.elytra.login:
+            description: Allows you to maintain upward flight immediately on login
+      niftycommands.flickmobs:
+        description: Allows you to flick mobs
+      niftycommands.flickplayers:
+        description: Allows you to flick players
+      niftycommands.flipblocks:
+        description: Allows you to flip blocks
+      niftycommands.rainmobs:
+        description: Allows you to spawn falling mobs around you in the sky
+      niftycommands.tower:
+        description: Allows you to spawn a comma-separated list of mobs riding each other
