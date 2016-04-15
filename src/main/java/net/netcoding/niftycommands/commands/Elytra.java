@@ -6,6 +6,7 @@ import net.netcoding.niftybukkit.util.LocationUtil;
 import net.netcoding.niftycommands.NiftyCommands;
 import net.netcoding.niftycore.minecraft.scheduler.MinecraftScheduler;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,10 +15,12 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Elytra extends BukkitCommand {
 
+	private static final List<Material> ELYTRA_ASSIST = Arrays.asList(Material.LAVA, Material.STATIONARY_LAVA, Material.STATIONARY_WATER, Material.WATER);
 	private static final String INFINITE_ELYTRA = "NC_ELYTRA";
 
 	public Elytra(JavaPlugin plugin) {
@@ -37,9 +40,11 @@ public class Elytra extends BukkitCommand {
 							Vector velocity = player.getVelocity().clone();
 							Vector vector = location.getDirection().clone();
 							BlockFace facing = LocationUtil.yawToFace(location.getYaw());
+							Material material = location.getBlock().getType();
+							NiftyCommands plugin = NiftyCommands.getPlugin(NiftyCommands.class);
 
 							// Ascending
-							if (vector.getY() >= 0.0) {
+							if (vector.getY() >= 0.0 || (plugin.hasPermissions(player, "elytra", "swim") && ELYTRA_ASSIST.contains(material))) {
 								// Temporarily Maintain Increased Velocity
 								if (facing == BlockFace.NORTH || facing == BlockFace.NORTH_EAST || facing == BlockFace.NORTH_WEST)
 									vector.setZ(Math.max(vector.getZ(), velocity.getZ()));
