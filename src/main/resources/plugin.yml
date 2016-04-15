@@ -48,6 +48,8 @@ permissions:
             description: Allows you to maintain upward flight
           niftycommands.elytra.login:
             description: Allows you to maintain upward flight immediately on login
+          niftycommands.elytra.swim:
+            description: Allows you to maintain flight in water and lava
       niftycommands.flickmobs:
         description: Allows you to flick mobs
       niftycommands.flickplayers:
