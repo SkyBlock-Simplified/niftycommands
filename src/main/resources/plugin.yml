@@ -7,14 +7,17 @@ main: ${project.groupId}.${project.artifactId}.${project.name}
 depend: [NiftyBukkit]
 
 commands:
+  derp:
+    description: Makes the players head rotate randomly
+    usage: /<command> [player|all] [seconds]
   earthquake:
     description: Makes the player shake uncontrollably and prevents jumping
-    usage: /<command> <figurethisoutlater>
+    usage: /<command> [player|all] [seconds]
     aliases: [quake]
-  elytra:
-    description: Toggles the ability to continuously fly using the elytra
-    usage: /<command>
-    aliases: [infflight, iflight, flight, efly, elytrafly, peterpan, pan]
+#  elytra:
+#    description: Toggles the ability to continuously fly using the elytra
+#    usage: /<command>
+#    aliases: [infflight, iflight, flight, efly, elytrafly, peterpan, pan]
   flickmobs:
     description: Sends a mob flying out of your body in your facing/specified direction
     usage: /<command> [<<x> <y> <z>>|<mob> [<x> <y> <z>]]
@@ -31,6 +34,14 @@ commands:
     description: Rains down mobs around you
     usage: /<command> [count]
     aliases: [rainmob]
+  sudo:
+    description: Rains down mobs around you
+    usage: /<command> <player> <command [args]|chat <message>>
+    aliases: [sudoall, mimic, mimicall]
+  teleport:
+    description: Teleports yourself or another player to a different location
+    usage: /<command> [target] <destination|<x> <y> <z> [world]>
+    aliases: [tp, tpall, tp2p, tptoggle, tpt, tpo, tpo, tppos]
   tower:
     description: Spawns mobs on top of each other, making a tower
     usage: /<command> [count] [mobs...]
@@ -41,15 +52,16 @@ permissions:
     children:
       niftycommands.earthquake:
         description: Allows you to shake any player uncontrollably
-      niftycommands.elytra.*:
-        description: Allows you to maintain upward elytra flight
-        children:
-          niftycommands.elytra:
-            description: Allows you to maintain upward flight
-          niftycommands.elytra.login:
-            description: Allows you to maintain upward flight immediately on login
-          niftycommands.elytra.swim:
-            description: Allows you to maintain flight in water and lava
+      #niftycommands.elytra.*:
+      #  description: Allows you to maintain upward elytra flight
+      #  children:
+      #    niftycommands.elytra.login:
+      #      description: Allows you to maintain upward flight immediately on login
+      #      children:
+      #        niftycommands.elytra:
+      #          description: Allows you to maintain upward flight
+      #    niftycommands.elytra.swim:
+      #      description: Allows you to maintain flight in water and lava
       niftycommands.flickmobs:
         description: Allows you to flick mobs
       niftycommands.flickplayers:
