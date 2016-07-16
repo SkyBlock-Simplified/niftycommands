@@ -1,34 +1,32 @@
-package net.netcoding.niftycommands.commands;
+package net.netcoding.nifty.commands.commands;
 
-import net.netcoding.niftybukkit.minecraft.BukkitCommand;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.FallingBlock;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
+import net.netcoding.nifty.common.Nifty;
+import net.netcoding.nifty.common.api.plugin.Command;
+import net.netcoding.nifty.common.api.plugin.MinecraftListener;
+import net.netcoding.nifty.common.api.plugin.MinecraftPlugin;
+import net.netcoding.nifty.common.api.plugin.PluginManager;
+import net.netcoding.nifty.common.minecraft.command.CommandSource;
+import net.netcoding.nifty.common.minecraft.entity.living.human.Player;
+import net.netcoding.nifty.core.util.misc.Vector;
 
-public class FlipBlocks extends BukkitCommand {
+public class FlipBlocks extends MinecraftListener {
 
-	private final static String WORLDEDIT = "WorldEdit";
+	private static final String WORLDEDIT = "WorldEdit";
 
-	public FlipBlocks(JavaPlugin plugin) {
-		super(plugin, "flipblocks");
-		this.setPlayerOnly();
-		this.setMinimumArgsLength(0);
-		this.setMaximumArgsLength(3);
+	public FlipBlocks(MinecraftPlugin plugin) {
+		super(plugin);
 	}
 
-	@Override
-	protected void onCommand(CommandSender sender, String alias, String[] args) throws Exception {
-		PluginManager manager = this.getPlugin().getServer().getPluginManager();
+	@Command(name = "flipblocks",
+			minimumArgs = 0,
+			maximumArgs = 3,
+			playerOnly = true
+	)
+	protected void onCommand(CommandSource sender, String alias, String[] args) throws Exception {
+		PluginManager manager = Nifty.getPluginManager();
 		final Vector velocity = new Vector(0, 1.5, 0);
 
-		if (!manager.isPluginEnabled(WORLDEDIT)) {
+		if (!manager.isEnabled(WORLDEDIT)) {
 			this.getLog().error(sender, "This command requires {{0}}!", WORLDEDIT);
 			return;
 		}
@@ -59,8 +57,9 @@ public class FlipBlocks extends BukkitCommand {
 			}
 		}
 
+		// TODO
 		Player player = (Player)sender;
-		com.sk89q.worldedit.bukkit.WorldEditPlugin wePlugin = (com.sk89q.worldedit.bukkit.WorldEditPlugin)manager.getPlugin(WORLDEDIT);
+		/*com.sk89q.worldedit.bukkit.WorldEditPlugin wePlugin = (com.sk89q.worldedit.bukkit.WorldEditPlugin)manager.getPlugin(WORLDEDIT);
 		com.sk89q.worldedit.bukkit.selections.Selection selection = wePlugin.getSelection(player);
 		final World world = player.getWorld();
 		final Location minimum;
@@ -92,7 +91,7 @@ public class FlipBlocks extends BukkitCommand {
 					falling.setVelocity(velocity);
 				}
 			}
-		}
+		}*/
 	}
 
 }

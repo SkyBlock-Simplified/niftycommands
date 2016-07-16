@@ -1,36 +1,36 @@
-package net.netcoding.niftycommands.listeners;
+package net.netcoding.nifty.commands.listeners;
 
-import net.netcoding.niftybukkit.NiftyBukkit;
-import net.netcoding.niftybukkit.minecraft.BukkitListener;
-import net.netcoding.niftybukkit.mojang.BukkitMojangProfile;
-import net.netcoding.niftybukkit.util.LocationUtil;
-import net.netcoding.niftycommands.NiftyCommands;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
+import net.netcoding.nifty.commands.NiftyCommands;
+import net.netcoding.nifty.common.Nifty;
+import net.netcoding.nifty.common.api.plugin.MinecraftListener;
+import net.netcoding.nifty.common.api.plugin.Event;
+import net.netcoding.nifty.common.api.plugin.MinecraftPlugin;
+import net.netcoding.nifty.common.minecraft.block.BlockFace;
+import net.netcoding.nifty.common.minecraft.entity.living.human.Player;
+import net.netcoding.nifty.common.minecraft.event.player.PlayerMoveEvent;
+import net.netcoding.nifty.common.minecraft.material.Material;
+import net.netcoding.nifty.common.minecraft.region.Location;
+import net.netcoding.nifty.common.mojang.MinecraftMojangProfile;
+import net.netcoding.nifty.common.util.LocationUtil;
+import net.netcoding.nifty.core.util.misc.Vector;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Misc extends BukkitListener {
+public class Misc extends MinecraftListener {
 
 	private static final List<Material> ELYTRA_ASSIST = Arrays.asList(Material.LAVA, Material.STATIONARY_LAVA, Material.STATIONARY_WATER, Material.WATER);
 
-	public Misc(JavaPlugin plugin) {
+	public Misc(MinecraftPlugin plugin) {
 		super(plugin);
 	}
 
-	@EventHandler
+	@Event
 	public void onPlayerMove(PlayerMoveEvent event) {
 		Player player = event.getPlayer();
 
 		if (this.hasPermissions(player, "eyltra")) {
-			BukkitMojangProfile profile = NiftyBukkit.getMojangRepository().searchByPlayer(player);
+			MinecraftMojangProfile profile = Nifty.getMojangRepository().searchByPlayer(player);
 
 			if (profile.isGliding()) {
 				Location location = player.getLocation();

@@ -1,18 +1,23 @@
-package net.netcoding.niftycommands.cache;
+package net.netcoding.nifty.commands.cache;
 
-import net.netcoding.niftybukkit.yaml.BukkitSQLConfig;
-import net.netcoding.niftycore.database.MySQL;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
+import net.netcoding.nifty.common.api.plugin.MinecraftPlugin;
+import net.netcoding.nifty.common.yaml.BukkitConfig;
+import net.netcoding.nifty.core.util.misc.Vector;
 
-public class Config extends BukkitSQLConfig<MySQL> {
+public class Config extends BukkitConfig {
 
 	public static final transient String CHAT_CHANNEL = "NiftyCommands";
 	private static final transient String TABLE_PREFIX = CHAT_CHANNEL.toLowerCase() + "_";
 	public static final transient String USER_TABLE = TABLE_PREFIX + "users";
 
-	public Config(JavaPlugin plugin) {
+	private double speed = 1.0;
+
+	public Config(MinecraftPlugin plugin) {
 		super(plugin.getDataFolder(), "config");
+	}
+
+	public double getSpeed() {
+		return Math.max(this.speed, 0.5);
 	}
 
     public static Vector getPitchVelocity(float pitch, double velocity) {
